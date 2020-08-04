@@ -153,9 +153,18 @@
             theme: 'snow'
         });
 
+        function putToClipboard(text) {
+            var dummy = document.createElement("textarea");
+            document.body.appendChild(dummy);
+            dummy.value = text;
+            dummy.select();
+            document.execCommand("copy");
+            document.body.removeChild(dummy);
+        }
+
         function copyFormatted() {
             var parsed = parseDelta(quill.getContents().ops);
-            console.log(parsed);
+            putToClipboard(parsed);
         }
 
         function parseDelta(delta) {
@@ -164,6 +173,7 @@
                 parsed += wrapOp(delta[op]);
             }
             console.log(parsed);
+            return parsed;
         }
 
         function wrapOp(op) {
@@ -229,7 +239,7 @@
             }
 
             if (op.attributes.italic) {
-                result = '&U' + result + '&D';
+                result = '&I' + result + '&D';
             }
 
             if (op.attributes.underline) {
