@@ -27,7 +27,6 @@
             <button class="ql-fgcolor" style="color: #808080;" value="dgray"><b>A</b></button>
             <button class="ql-fgcolor" style="color: #C0C0C0;" value="gray"><b>A</b></button>
             <button class="ql-fgcolor" style="color: #FFFFFF;" value="white"><b>A</b></button>
-            <button class="copy-formatted" onclick="copyFormatted()">Copy</button>
         </div>
     </div>
     <div id="editor"></div>
@@ -134,6 +133,7 @@
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <script>
         const Parchment = Quill.import('parchment')
+        const Delta = Quill.import('delta')
         var boxAttributor = new Parchment.Attributor.Class('fgcolor', 'fg', {
             scope: Parchment.Scope.INLINE,
             whitelist: ['none', 'green', 'lgreen', 'dblue', 'cyan', 'blue', 'lblue', 'red', 'lred', 'purple', 'pink', 'orange', 'yellow', 'dgray', 'gray', 'white']
@@ -153,18 +153,115 @@
             theme: 'snow'
         });
 
-        function putToClipboard(text) {
-            var dummy = document.createElement("textarea");
-            document.body.appendChild(dummy);
-            dummy.value = text;
-            dummy.select();
-            document.execCommand("copy");
-            document.body.removeChild(dummy);
+        quill.root.addEventListener('copy', e => copyParsed(e));
+        quill.root.addEventListener('cut', e => copyParsed(e, true));
+        quill.root.addEventListener('paste', pasteParsed.bind(this));
+
+        function copyParsed(e, cut = false) {
+            e.preventDefault();
+            range = quill.selection.getRange()[0];
+            if (range.length == 0) return;
+
+            var rDelta = quill.getContents(range);
+            var parsed = parseDelta(rDelta.ops);
+            e.clipboardData.setData('text/plain', parsed);
+            if (cut) {
+                this.quill.deleteText(range, Quill.sources.USER);
+            }
         }
 
-        function copyFormatted() {
-            var parsed = parseDelta(quill.getContents().ops);
-            putToClipboard(parsed);
+        function pasteParsed(e) {
+            e.preventDefault();
+            var range = quill.getSelection(true);
+            if (range == null) return;
+            var pasteDelta = new Delta();
+            var cb = e.clipboardData.getData('text/plain');
+            // Too lazy to fix regex for catching the last match.
+            cb = cb.replace('&D', '') + '&w';
+            var parts = cb.match(/&[xgbczGBCrOpwRYPWUI].+?(?=&)/gm);
+            for (part in parts) {
+                op = getOp(parts[part]);
+                pasteDelta.insert(op.raw, op.attr);
+            }
+            const delta = new Delta()
+                .retain(range.index)
+                .delete(range.length)
+                .concat(pasteDelta);
+            quill.updateContents(delta, Quill.sources.USER);
+            quill.setSelection(delta.length() - range.length,
+                Quill.sources.SILENT,);
+            quill.scrollIntoView();
+        }
+
+        function getOp(raw) {
+            var tags = raw.match(/&[xgbczGBCrOpwRYPWUI]/gm);
+            var attr = {};
+            for (tid in tags) {
+                var tag = tags[tid];
+                if (tag == '&U') {
+                    attr.underline = true;
+                }
+                if (tag == '&I') {
+                    attr.italic = true;
+                }
+                else {
+                    switch (tag) {
+                        case '&x':
+                            attr.fgcolor = 'none';
+                            break;
+                        case '&g':
+                            attr.fgcolor = 'green';
+                            break;
+                        case '&G':
+                            attr.fgcolor = 'lgreen';
+                            break;
+                        case '&b':
+                            attr.fgcolor = 'dblue';
+                            break;
+                        case '&c':
+                            attr.fgcolor = 'cyan';
+                            break;
+                        case '&B':
+                            attr.fgcolor = 'blue';
+                            break;
+                        case '&C':
+                            attr.fgcolor = 'lblue';
+                            break;
+                        case '&r':
+                            attr.fgcolor = 'red';
+                            break;
+                        case '&R':
+                            attr.fgcolor = 'lred';
+                            break;
+                        case '&p':
+                            attr.fgcolor = 'purple';
+                            break;
+                        case '&P':
+                            attr.fgcolor = 'pink';
+                            break;
+                        case '&O':
+                            attr.fgcolor = 'orange';
+                            break;
+                        case '&Y':
+                            attr.fgcolor = 'yellow';
+                            break;
+                        case '&z':
+                            attr.fgcolor = 'dgray';
+                            break;
+                        case '&w':
+                            attr.fgcolor = 'gray';
+                            break;
+                        case '&W':
+                            attr.fgcolor = 'white';
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+                raw = raw.replace(tag, '');
+            }
+            return {raw, attr};
         }
 
         function parseDelta(delta) {
@@ -172,7 +269,6 @@
             for (op in delta) {
                 parsed += wrapOp(delta[op]);
             }
-            console.log(parsed);
             return parsed;
         }
 
@@ -181,6 +277,9 @@
             if (op.attributes == null) {
                 return result
             }
+
+            // Avoid duplicate clears.
+            var needClear = false;
 
             if (op.attributes.fgcolor) {
                 switch (op.attributes.fgcolor) {
@@ -239,15 +338,21 @@
             }
 
             if (op.attributes.italic) {
-                result = '&I' + result + '&D';
+                result = '&I' + result;
+                needClear = true;
             }
 
             if (op.attributes.underline) {
-                result = '&U' + result + '&D';
+                result = '&U' + result;
+                needClear = true;
             }
+
+            if (needClear) result += '&D';
 
             return result;
         }
+
+
     </script>
 </body>
 
