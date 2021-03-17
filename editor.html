@@ -178,7 +178,7 @@
             var cb = e.clipboardData.getData('text/plain');
             // Too lazy to fix regex for catching the last match.
             cb = cb.replace('&D', '') + '&w';
-            var parts = cb.match(/(&[xgbczGBCrOpwRYPWUI])?.+?(?=&|\n)|\n/g);
+            var parts = cb.match(/(&[xgbczGBCrOpwRYPWUI])?.+?(?=&|$)|\n/gm);
             for (part in parts) {
                 op = getOp(parts[part]);
                 pasteDelta.insert(op.raw, op.attr);
