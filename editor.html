@@ -7,28 +7,6 @@
 </head>
 
 <body>
-    <div id="toolbar">
-        <button class="ql-underline"></button>
-        <button class="ql-italic"></button>
-        <div id="#fg-colors">
-            <button class="ql-fgcolor" style="opacity: 0;" value="none"><b>A</b></button>
-            <button class="ql-fgcolor" style="color: #008000;" value="green"><b>A</b></button>
-            <button class="ql-fgcolor" style="color: #00FF00;" value="lgreen"><b>A</b></button>
-            <button class="ql-fgcolor" style="color: #000080;" value="dblue"><b>A</b></button>
-            <button class="ql-fgcolor" style="color: #008080;" value="cyan"><b>A</b></button>
-            <button class="ql-fgcolor" style="color: #0000FF;" value="blue"><b>A</b></button>
-            <button class="ql-fgcolor" style="color: #00FFFF;" value="lblue"><b>A</b></button>
-            <button class="ql-fgcolor" style="color: #FF0000;" value="lred"><b>A</b></button>
-            <button class="ql-fgcolor" style="color: #800000;" value="red"><b>A</b></button>
-            <button class="ql-fgcolor" style="color: #800080;" value="purple"><b>A</b></button>
-            <button class="ql-fgcolor" style="color: #FF00FF;" value="pink"><b>A</b></button>
-            <button class="ql-fgcolor" style="color: #808000;" value="orange"><b>A</b></button>
-            <button class="ql-fgcolor" style="color: #FFFF00;" value="yellow"><b>A</b></button>
-            <button class="ql-fgcolor" style="color: #808080;" value="dgray"><b>A</b></button>
-            <button class="ql-fgcolor" style="color: #C0C0C0;" value="gray"><b>A</b></button>
-            <button class="ql-fgcolor" style="color: #FFFFFF;" value="white"><b>A</b></button>
-        </div>
-    </div>
     <div id="editor"></div>
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <style>
@@ -62,73 +40,10 @@
             max-width: 657px;
         }
 
-        .copy-formatted {
-            color: #FFFFFF;
+        .ql-snow .ql-color-picker .ql-picker-options {
+            width: 175px;
         }
 
-        .fg-none {
-            color: #000000;
-        }
-
-        .fg-green {
-            color: #008000;
-        }
-
-        .fg-lgreen {
-            color: #00FF00;
-        }
-
-        .fg-dblue {
-            color: #000080;
-        }
-
-        .fg-cyan {
-            color: #008080;
-        }
-
-        .fg-blue {
-            color: #0000FF;
-        }
-
-        .fg-lblue {
-            color: #00FFFF;
-        }
-
-        .fg-lred {
-            color: #FF0000;
-        }
-
-        .fg-red {
-            color: #800000;
-        }
-
-        .fg-purple {
-            color: #800080;
-        }
-
-        .fg-pink {
-            color: #FF00FF;
-        }
-
-        .fg-orange {
-            color: #808000;
-        }
-
-        .fg-yellow {
-            color: #FFFF00;
-        }
-
-        .fg-dgray {
-            color: #808080;
-        }
-
-        .fg-gray {
-            color: #C0C0C0;
-        }
-
-        .fg-white {
-            color: #FFFFFF;
-        }
     </style>
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <script>
@@ -140,15 +55,273 @@
         });
         Quill.register(boxAttributor);
 
-        var toolbarOptions = [
-            ['underline', 'italic'],
-            [{ 'size': ['small', false, 'large', 'huge'] }],
+        var xtermColors = [
+            "#000000",
+            "#800000",
+            "#008000",
+            "#808000",
+            "#000080",
+            "#800080",
+            "#008080",
+            "#c0c0c0",
+            "#808080",
+            "#ff0000",
+            "#00ff00",
+            "#ffff00",
+            "#0000ff",
+            "#ff00ff",
+            "#00ffff",
+            "#ffffff",
+            "#000000",
+            "#00005f",
+            "#000087",
+            "#0000af",
+            "#0000d7",
+            "#0000ff",
+            "#005f00",
+            "#005f5f",
+            "#005f87",
+            "#005faf",
+            "#005fd7",
+            "#005fff",
+            "#008700",
+            "#00875f",
+            "#008787",
+            "#0087af",
+            "#0087d7",
+            "#0087ff",
+            "#00af00",
+            "#00af5f",
+            "#00af87",
+            "#00afaf",
+            "#00afd7",
+            "#00afff",
+            "#00d700",
+            "#00d75f",
+            "#00d787",
+            "#00d7af",
+            "#00d7d7",
+            "#00d7ff",
+            "#00ff00",
+            "#00ff5f",
+            "#00ff87",
+            "#00ffaf",
+            "#00ffd7",
+            "#00ffff",
+            "#5f0000",
+            "#5f005f",
+            "#5f0087",
+            "#5f00af",
+            "#5f00d7",
+            "#5f00ff",
+            "#5f5f00",
+            "#5f5f5f",
+            "#5f5f87",
+            "#5f5faf",
+            "#5f5fd7",
+            "#5f5fff",
+            "#5f8700",
+            "#5f875f",
+            "#5f8787",
+            "#5f87af",
+            "#5f87d7",
+            "#5f87ff",
+            "#5faf00",
+            "#5faf5f",
+            "#5faf87",
+            "#5fafaf",
+            "#5fafd7",
+            "#5fafff",
+            "#5fd700",
+            "#5fd75f",
+            "#5fd787",
+            "#5fd7af",
+            "#5fd7d7",
+            "#5fd7ff",
+            "#5fff00",
+            "#5fff5f",
+            "#5fff87",
+            "#5fffaf",
+            "#5fffd7",
+            "#5fffff",
+            "#870000",
+            "#87005f",
+            "#870087",
+            "#8700af",
+            "#8700d7",
+            "#8700ff",
+            "#875f00",
+            "#875f5f",
+            "#875f87",
+            "#875faf",
+            "#875fd7",
+            "#875fff",
+            "#878700",
+            "#87875f",
+            "#878787",
+            "#8787af",
+            "#8787d7",
+            "#8787ff",
+            "#87af00",
+            "#87af5f",
+            "#87af87",
+            "#87afaf",
+            "#87afd7",
+            "#87afff",
+            "#87d700",
+            "#87d75f",
+            "#87d787",
+            "#87d7af",
+            "#87d7d7",
+            "#87d7ff",
+            "#87ff00",
+            "#87ff5f",
+            "#87ff87",
+            "#87ffaf",
+            "#87ffd7",
+            "#87ffff",
+            "#af0000",
+            "#af005f",
+            "#af0087",
+            "#af00af",
+            "#af00d7",
+            "#af00ff",
+            "#af5f00",
+            "#af5f5f",
+            "#af5f87",
+            "#af5faf",
+            "#af5fd7",
+            "#af5fff",
+            "#af8700",
+            "#af875f",
+            "#af8787",
+            "#af87af",
+            "#af87d7",
+            "#af87ff",
+            "#afaf00",
+            "#afaf5f",
+            "#afaf87",
+            "#afafaf",
+            "#afafd7",
+            "#afafff",
+            "#afd700",
+            "#afd75f",
+            "#afd787",
+            "#afd7af",
+            "#afd7d7",
+            "#afd7ff",
+            "#afff00",
+            "#afff5f",
+            "#afff87",
+            "#afffaf",
+            "#afffd7",
+            "#afffff",
+            "#d70000",
+            "#d7005f",
+            "#d70087",
+            "#d700af",
+            "#d700d7",
+            "#d700ff",
+            "#d75f00",
+            "#d75f5f",
+            "#d75f87",
+            "#d75faf",
+            "#d75fd7",
+            "#d75fff",
+            "#d78700",
+            "#d7875f",
+            "#d78787",
+            "#d787af",
+            "#d787d7",
+            "#d787ff",
+            "#d7af00",
+            "#d7af5f",
+            "#d7af87",
+            "#d7afaf",
+            "#d7afd7",
+            "#d7afff",
+            "#d7d700",
+            "#d7d75f",
+            "#d7d787",
+            "#d7d7af",
+            "#d7d7d7",
+            "#d7d7ff",
+            "#d7ff00",
+            "#d7ff5f",
+            "#d7ff87",
+            "#d7ffaf",
+            "#d7ffd7",
+            "#d7ffff",
+            "#ff0000",
+            "#ff005f",
+            "#ff0087",
+            "#ff00af",
+            "#ff00d7",
+            "#ff00ff",
+            "#ff5f00",
+            "#ff5f5f",
+            "#ff5f87",
+            "#ff5faf",
+            "#ff5fd7",
+            "#ff5fff",
+            "#ff8700",
+            "#ff875f",
+            "#ff8787",
+            "#ff87af",
+            "#ff87d7",
+            "#ff87ff",
+            "#ffaf00",
+            "#ffaf5f",
+            "#ffaf87",
+            "#ffafaf",
+            "#ffafd7",
+            "#ffafff",
+            "#ffd700",
+            "#ffd75f",
+            "#ffd787",
+            "#ffd7af",
+            "#ffd7d7",
+            "#ffd7ff",
+            "#ffff00",
+            "#ffff5f",
+            "#ffff87",
+            "#ffffaf",
+            "#ffffd7",
+            "#ffffff",
+            "#080808",
+            "#121212",
+            "#1c1c1c",
+            "#262626",
+            "#303030",
+            "#3a3a3a",
+            "#444444",
+            "#4e4e4e",
+            "#585858",
+            "#606060",
+            "#666666",
+            "#767676",
+            "#808080",
+            "#8a8a8a",
+            "#949494",
+            "#9e9e9e",
+            "#a8a8a8",
+            "#b2b2b2",
+            "#bcbcbc",
+            "#c6c6c6",
+            "#d0d0d0",
+            "#dadada",
+            "#e4e4e4",
+            "#eeeeee"
         ]
+
+        var tools = [
+            ['italic', 'underline', 'strike'],
+            [{ 'color': xtermColors }]
+        ]
+
         var quill = new Quill('#editor', {
             modules: {
-                toolbar: {
-                    container: '#toolbar'
-                }
+                toolbar: tools
             },
             theme: 'snow'
         });
@@ -189,15 +362,18 @@
                 .concat(pasteDelta);
             quill.updateContents(delta, Quill.sources.USER);
             quill.setSelection(delta.length() - range.length,
-                Quill.sources.SILENT,);
+                Quill.sources.SILENT);
             quill.scrollIntoView();
         }
 
         function getOp(raw) {
-            var tags = raw.match(/&[xgbczGBCrOpwRYPWUI]/gm);
+            var tags = raw.match(/&[xgbczGBCrOpwRYPWUID]|&\d{3}/gm);
             var attr = {};
             for (tid in tags) {
                 var tag = tags[tid];
+                if (tag.length == 4) {
+                    attr.color = xtermColors[parseInt(tag.replace('&', ''))]
+                }
                 if (tag == '&U') {
                     attr.underline = true;
                 }
@@ -207,52 +383,52 @@
                 else {
                     switch (tag) {
                         case '&x':
-                            attr.fgcolor = 'none';
+                            attr.color = xtermColors[0];
                             break;
                         case '&g':
-                            attr.fgcolor = 'green';
+                            attr.color = xtermColors[2];
                             break;
                         case '&G':
-                            attr.fgcolor = 'lgreen';
+                            attr.color = xtermColors[10];
                             break;
                         case '&b':
-                            attr.fgcolor = 'dblue';
+                            attr.color = xtermColors[4];
                             break;
                         case '&c':
-                            attr.fgcolor = 'cyan';
+                            attr.color = xtermColors[6];
                             break;
                         case '&B':
-                            attr.fgcolor = 'blue';
+                            attr.color = xtermColors[12];
                             break;
                         case '&C':
-                            attr.fgcolor = 'lblue';
+                            attr.color = xtermColors[14];
                             break;
                         case '&r':
-                            attr.fgcolor = 'red';
+                            attr.color = xtermColors[1];
                             break;
                         case '&R':
-                            attr.fgcolor = 'lred';
+                            attr.color = xtermColors[9];
                             break;
                         case '&p':
-                            attr.fgcolor = 'purple';
+                            attr.color = xtermColors[5];
                             break;
                         case '&P':
-                            attr.fgcolor = 'pink';
+                            attr.color = xtermColors[13];
                             break;
                         case '&O':
-                            attr.fgcolor = 'orange';
+                            attr.color = xtermColors[3];
                             break;
                         case '&Y':
-                            attr.fgcolor = 'yellow';
+                            attr.color = xtermColors[11];
                             break;
                         case '&z':
-                            attr.fgcolor = 'dgray';
+                            attr.color = xtermColors[8];
                             break;
                         case '&w':
-                            attr.fgcolor = 'gray';
+                            attr.color = xtermColors[7];
                             break;
                         case '&W':
-                            attr.fgcolor = 'white';
+                            attr.color = xtermColors[15];
                             break;
 
                         default:
@@ -261,7 +437,7 @@
                 }
                 raw = raw.replace(tag, '');
             }
-            return {raw, attr};
+            return { raw, attr };
         }
 
         function parseDelta(delta) {
@@ -275,67 +451,18 @@
         function wrapOp(op) {
             var result = op.insert
             if (op.attributes == null) {
-                return result
+                return '&D' + result
             }
 
             // Avoid duplicate clears.
             var needClear = false;
 
-            if (op.attributes.fgcolor) {
-                switch (op.attributes.fgcolor) {
-                    case 'none':
-                        result = '&x' + result;
-                        break;
-                    case 'green':
-                        result = '&g' + result;
-                        break;
-                    case 'lgreen':
-                        result = '&G' + result;
-                        break;
-                    case 'dblue':
-                        result = '&b' + result;
-                        break;
-                    case 'cyan':
-                        result = '&c' + result;
-                        break;
-                    case 'blue':
-                        result = '&B' + result;
-                        break;
-                    case 'lblue':
-                        result = '&C' + result;
-                        break;
-                    case 'red':
-                        result = '&r' + result;
-                        break;
-                    case 'lred':
-                        result = '&R' + result;
-                        break;
-                    case 'purple':
-                        result = '&p' + result;
-                        break;
-                    case 'pink':
-                        result = '&P' + result;
-                        break;
-                    case 'orange':
-                        result = '&O' + result;
-                        break;
-                    case 'yellow':
-                        result = '&Y' + result;
-                        break;
-                    case 'dgray':
-                        result = '&z' + result;
-                        break;
-                    case 'gray':
-                        result = '&w' + result;
-                        break;
-                    case 'white':
-                        result = '&W' + result;
-                        break;
-
-                    default:
-                        break;
-                }
+            if (op.attributes.color) {
+                cid = xtermColors.indexOf(op.attributes.color).toString();
+                while (cid.length < 3) cid = "0" + cid;
+                result = '&' + cid + result;
             }
+
 
             if (op.attributes.italic) {
                 result = '&I' + result;
