@@ -44,9 +44,28 @@
             width: 133px;
         }
 
+        #ql-picker-options-0 {
+            counter-reset: color-number;
+        }
+
+        #ql-picker-options-0 > span {
+            font-size: 8px;
+        }
+
+        #ql-picker-options-0 > span:after {
+            counter-increment: color-number;
+            content: counter(color-number);
+            background: inherit;
+            background-clip: text;
+            -webkit-background-clip: text;
+            filter: invert(1) contrast(1);
+            mix-blend-mode: difference;
+        }
+
         #ql-picker-options-0 > span:nth-child(16) {
             margin-bottom: 20px;
             margin-right: 32px;
+            
         }
 
     </style>
