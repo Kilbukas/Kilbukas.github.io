@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunklotj_docs=self.webpackChunklotj_docs||[]).push([[891],{5679:a=>{a.exports=JSON.parse('{"title":"Datapad","slug":"/category/datapad","permalink":"/docs/category/datapad","navigation":{"previous":{"title":"LOTJ","permalink":"/docs/LOTJ/"},"next":{"title":"API","permalink":"/docs/Datapad/API"}}}')}}]);
